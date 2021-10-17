@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>StudyCenter</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href = "styles.css">
+</head>
+<body style="background-color:black">
+<br />
+<h1 style="color:white">Welcome</h1>
+<br />
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-5KAN9_CzSA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br />
+
+
+
+
+<br />
+<h1 style="color:white">Study Timer</h1>
+
+<form name="form_main">
+  <div>
+    <span style = "color:white"; id="hour">00</span>:<span style = "color:white"; id="minute">30</span>:<span style = "color:white"; id="second">00</span>:
+  </div>
+
+  <br />
+
+
+  <button type="button" name="start">start</button>
+  <button type="button" name="pause">pause</button>
+  <button type="button" name="reset">reset</button>
+  <button type="button" name="studyBreak">studyBreak</button>
+</form>
+
+<script>
+let hour = 0;
+let minute = 30;
+let second = 0;
+let millisecond = 0;
+var loopEnded = new Boolean(false);
+
+let cron;
+var audioDing = new Audio('ding.wav');
+
+document.form_main.start.onclick = () => start();
+document.form_main.pause.onclick = () => pause();
+document.form_main.reset.onclick = () => reset();
+document.form_main.studyBreak.onclick = () => studyBreak();
+
+
+
+function playSound() {
+	var audio = new Audio('ding.wav');
+	audio.play();
+}
+
+function start() {
+  pause();
+  cron = setInterval(() => { timer(); }, 10);
+}
+
+function pause() {
+  clearInterval(cron);
+}
+
+function reset() {
+  hour = 0;
+  minute = 30;
+  second = 0;
+  millisecond = 0;
+  document.getElementById('hour').innerText = '00';
+  document.getElementById('minute').innerText = '30';
+  document.getElementById('second').innerText = '00';
+  document.getElementById('millisecond').innerText = '00';
+  loopEnded = false
+}
+
+function studyBreak() {
+  hour = 0;
+  minute = 5;
+  second = 0;
+  millisecond = 0;
+  document.getElementById('hour').innerText = '00';
+  document.getElementById('minute').innerText = '5';
+  document.getElementById('second').innerText = '00';
+  document.getElementById('millisecond').innerText = '00';
+  loopEnded = false
+
+}
+
+
+function timer() {
+  if ((millisecond -= 10 && loopEnded == false) < 0) {
+    millisecond = 99;
+    second--;
+  }
+  if (second < 0 && loopEnded == false) {
+    second = 59;
+    minute--;
+  }
+  if (minute < 0 && loopEnded == false) {
+    minute = 0;
+  }
+  if (millisecond == 0 && second == 0 && minute == 0 && loopEnded == false){
+		playSound();
+		loopEnded = true;
+  }
+  
+  document.getElementById('hour').innerText = returnData(hour);
+  document.getElementById('minute').innerText = returnData(minute);
+  document.getElementById('second').innerText = returnData(second);
+  document.getElementById('millisecond').innerText = returnData(millisecond);
+}
+
+function returnData(input) {
+  return input > 10 ? input : `0${input}`
+}
+
+
+</script>
+
+
+<div id="myDIV" class="header">
+  <h2 style="margin:5px">My To Do List</h2>
+  <input type="text" id="myInput" placeholder="Title...">
+  <span onclick="newElement()" class="addBtn">Add</span>
+</div>
+
+<ul id="myUL">
+  <li>Study for Quiz</li>
+  <li>Do Dishes</li>
+  
+  
+  
+
+</ul>
+
+<script src="myScript.js"></script>
+
+
+</body>
+</html>
